@@ -1,0 +1,13 @@
+# Hermes plugin manifest (YAML).
+# Spec: https://hermes-agent.nousresearch.com/docs/developer-guide/plugins
+# Loaded by `hermes plugins` from ~/.hermes/plugins/<name>/plugin.yaml
+name: tech-event-scout
+version: "0.1.0"
+description: "AI/테크 행사 정보 수집 에이전트 (AWS, GCP, Claude, OpenAI, Gemini, Groq, 서밋, 코엑스/키텍스)"
+author:
+  name: epicsagas
+  url: https://github.com/epicsagas
+# Hermes discovers bundled skills via ctx.register_skill() in __init__.py;
+# this list documents them so forge doctor can verify the bundle.
+provides_skills:
+  - tech-event-scout

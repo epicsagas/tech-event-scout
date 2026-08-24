@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "epicsagas",
+  "owner": {
+    "name": "epicsagas",
+    "url": "https://github.com/epicsagas"
+  },
+  "metadata": {
+    "description": "Handcrafted plugins for serious AI-assisted work."
+  },
+  "plugins": [
+    {
+      "name": "tech-event-scout",
+      "source": "./",
+      "description": "AI/테크 행사 정보 수집 에이전트 (AWS, GCP, Claude, OpenAI, Gemini, Groq, 서밋, 코엑스/키텍스)"
+    }
+  ]
+}

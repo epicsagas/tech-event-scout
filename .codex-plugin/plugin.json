@@ -1,0 +1,23 @@
+{
+  "name": "tech-event-scout",
+  "version": "0.1.0",
+  "description": "AI/테크 행사 정보 수집 에이전트 (AWS, GCP, Claude, OpenAI, Gemini, Groq, 서밋, 코엑스/키텍스)",
+  "author": {
+    "name": "epicsagas",
+    "url": "https://github.com/epicsagas"
+  },
+  "homepage": "https://github.com/epicsagas/tech-event-scout",
+  "repository": "https://github.com/epicsagas/tech-event-scout",
+  "license": "MIT",
+  "keywords": [],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "tech-event-scout",
+    "shortDescription": "AI/테크 행사 정보 수집 에이전트 (AWS, GCP, Claude, OpenAI, Gemini, Groq, 서밋, 코엑스/키텍스)",
+    "longDescription": "AI/테크 행사 정보 수집 에이전트 (AWS, GCP, Claude, OpenAI, Gemini, Groq, 서밋, 코엑스/키텍스)",
+    "developerName": "epicsagas",
+    "category": "Development & Workflow",
+    "capabilities": ["Bash", "Read", "Write", "Edit"],
+    "websiteURL": "https://github.com/epicsagas/tech-event-scout"
+  }
+}

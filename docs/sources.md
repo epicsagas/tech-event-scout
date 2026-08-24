@@ -25,8 +25,6 @@ detail body · BEXCO → "참가 안내" link.
 | Google Cloud Next | https://www.googlecloudevents.com/next-vegas |
 | Anthropic events | https://www.anthropic.com/events |
 | OpenAI DevDay | https://devday.openai.com/ (DevDay + DevDay Exchanges incl. Seoul) |
-| KES 한국전자전 | https://www.kes.org/ |
-| AI Festa (인공지능 페스타) | COEX page (과기부 인공지능주간 공식, 무료) |
 | Groq events | https://groq.com/events/ |
 | World Summit AI | https://worldsummit.ai/ |
 | AI Summit Seoul | https://www.aisummit.co.kr/ |

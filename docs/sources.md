@@ -9,7 +9,7 @@ human-readable list of every site the skill queries.
 | Venue | List page | Query |
 |-------|-----------|-------|
 | COEX (코엑스, Seoul) | https://www.coex.co.kr/event/full-schedules/ | `search_start_date`/`search_end_date` (YYYY.MM.DD) + `var_page`, `list_type=LIST` |
-| KINTEX (킨텍스, Goyang) | https://www.kintex.com/web/ko/event/list.do | `searchStartMon`/`searchEndMon` (YYYYMM) |
+| KINTEX (킨텍스, Goyang) | https://www.kintex.com/web/ko/event/list.do | `searchStartDt`/`searchEndDt` (YYYY-MM-DD) + `pageIndex` |
 | BEXCO (벡스코, Busan) | https://www.bexco.co.kr/kor/CMS/EventScheduleMgr/list.do?robot=Y&mCode=MN214 | `page` |
 
 Detail links: COEX → "홈페이지 바로가기" on the venue detail page · KINTEX → homepage URL in the

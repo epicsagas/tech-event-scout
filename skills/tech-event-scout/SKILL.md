@@ -21,7 +21,7 @@ better token cost, speed, and accuracy. Web search only for gaps the sources bel
 | Source | URL pattern | Pagination / query |
 |------|--------------|------|
 | COEX | `https://www.coex.co.kr/event/full-schedules/?var_page=1&search_start_date=YYYY.MM.DD&search_end_date=YYYY.MM.DD&list_type=LIST` | date range + `var_page` |
-| KINTEX | `https://www.kintex.com/web/ko/event/list.do?searchType=&searchStartMon=YYYYMM&searchEndMon=YYYYMM&searchStartDt=&searchEndDt=` | month range |
+| KINTEX | `https://www.kintex.com/web/ko/event/list.do?searchType=&searchStartDt=YYYY-MM-DD&searchEndDt=YYYY-MM-DD&pageIndex=N` | date range + `pageIndex` (`searchStartMon` is ignored by the site) |
 | BEXCO | `https://www.bexco.co.kr/kor/CMS/EventScheduleMgr/list.do?robot=Y&mCode=MN214&page=1` | `page` (Busan) |
 
 ### Platforms & flagship events

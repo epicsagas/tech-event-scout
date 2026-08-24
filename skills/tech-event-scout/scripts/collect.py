@@ -30,9 +30,10 @@ SOURCES = [
     # venues, date-parameterized
     {"name": "coex",   "kind": "coex-card",  "dates": "dot",    "paginate": True,
      "url": "https://www.coex.co.kr/event/full-schedules/?var_page={page}&search_start_date={start}&search_end_date={end}&list_type=LIST"},
-    {"name": "kintex", "kind": "kintex-card", "dates": "ym", "paginate": True,
-     "url": "https://www.kintex.com/web/ko/event/list.do?searchType=&searchStartMon={start}&searchEndMon={end}&searchStartDt=&searchEndDt=&pageIndex={page}"},
-    {"name": "bexco",  "kind": "bexco-card", "url": "https://www.bexco.co.kr/kor/CMS/EventScheduleMgr/list.do?robot=Y&mCode=MN214&page=1"},
+    {"name": "kintex", "kind": "kintex-card", "dates": "dash", "paginate": True,
+     "url": "https://www.kintex.com/web/ko/event/list.do?searchType=&searchStartDt={start}&searchEndDt={end}&pageIndex={page}"},
+    {"name": "bexco",  "kind": "bexco-card", "dates": "dash", "paginate": True,
+     "url": "https://www.bexco.co.kr/kor/CMS/EventScheduleMgr/list.do?robot=Y&mCode=MN214&page={page}&schStartDate={start}&schEndDate={end}"},
     # JS-only: codebase can't fetch; emit stub for LLM follow-up
     {"name": "event-us",   "js": True, "url": "https://event-us.kr/"},
     {"name": "anthropic",  "js": True, "url": "https://www.anthropic.com/events"},
@@ -43,7 +44,7 @@ SOURCES = [
 KEYWORDS = [
     "AI", "인공지능", "GPT", "LLM", "생성형", "테크", "tech", "IT", "SW", "소프트웨어",
     "개발", "컨퍼런스", "세미나", "웨비나", "웹비나", "밋업", "보안", "시큐리티",
-    "클라우드", "데이터", "로봇", "자율주행", "AIoT", "해커톤", "DevOps", "전자전",
+    "클라우드", "데이터", "로봇", "자율주행", "AIoT", "해커톤", "DevOps", "전자전", "스마트",
     "summit", "conference", "webinar", "hackathon", "meetup", "security",
 ]
 # ponytail: \b on ASCII tokens stops SPYAIR→"AI" false hits; Korean needs no boundary
@@ -108,7 +109,9 @@ def parse_bexco(html, base):
         href, inner = m.groups()
         text = clean(re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", inner)))
         dm = re.search(r"(20\d{2}-\d{2}-\d{2}\s*~\s*20\d{2}-\d{2}-\d{2})", text)
-        title = re.sub(r"^(상세보기\s*)?(진행중|종료)?\s*\S{1,4}\s+", "", text.split("~")[0]).strip()
+        title = re.sub(r"\s*20\d{2}-\d{2}-\d{2}\s*$", "",
+                       re.sub(r"^(상세보기\s*)?(D-\d+|D\d+|진행중|종료)?\s*(전시|회의|이벤트|일반)?\s+",
+                              "", text.split("~")[0])).strip()
         yield {"title": title, "url": "https://www.bexco.co.kr" + href,
                "dates": dm.group(1) if dm else ""}
 
@@ -131,11 +134,11 @@ PARSERS = {"anchors": parse_anchors, "md-links": parse_md_links, "aws-json": par
 def build_urls(src, start, end):
     """Fill url template with date params per site's format."""
     fmt = {"dot": lambda s: f"{s[:4]}.{s[4:6]}.{s[6:]}" if s else "",
-           "ym":  lambda s: s[:6] if s else ""}.get(src.get("dates"))
+           "dash": lambda s: f"{s[:4]}-{s[4:6]}-{s[6:]}" if s else ""}.get(src.get("dates"))
     if "{" not in src["url"]:
         return [src["url"]]
     if src.get("paginate"):
-        return [src["url"].format(page=p, start=fmt(start), end=fmt(end)) for p in range(1, 6)]
+        return [src["url"].format(page=p, start=fmt(start), end=fmt(end)) for p in range(1, 9)]
     return [src["url"].format(start=fmt(start), end=fmt(end))]
 
 DATE_RE = re.compile(r"(20\d{2})-(\d{2})-(\d{2})|(20\d{2})\.(\d{2})\.(\d{2})|(20\d{2})[./](\d{1,2})[./](\d{1,2})")

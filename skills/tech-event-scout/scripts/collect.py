@@ -31,7 +31,8 @@ SOURCES = [
     {"name": "coex",   "kind": "coex-card",  "dates": "dot",    "paginate": True,
      "url": "https://www.coex.co.kr/event/full-schedules/?var_page={page}&search_start_date={start}&search_end_date={end}&list_type=LIST"},
     {"name": "kintex", "kind": "kintex-card", "dates": "dash", "paginate": True,
-     "url": "https://www.kintex.com/web/ko/event/list.do?searchType=&searchStartDt={start}&searchEndDt={end}&pageIndex={page}"},
+     "url": "https://www.kintex.com/web/ko/event/list.do?seq=&pageIndex={page}&pageUnit=30"
+            "&searchKeyword=&searchType=11%2C23%2C12%2CD%2C&searchStartDt={start}&searchEndDt={end}&searchCheck=6"},
     {"name": "bexco",  "kind": "bexco-card", "dates": "dash", "paginate": True,
      "url": "https://www.bexco.co.kr/kor/CMS/EventScheduleMgr/list.do?robot=Y&mCode=MN214&page={page}&schStartDate={start}&schEndDate={end}"},
     # JS-only: codebase can't fetch; emit stub for LLM follow-up
@@ -42,7 +43,7 @@ SOURCES = [
 ]
 
 KEYWORDS = [
-    "AI", "인공지능", "GPT", "LLM", "생성형", "테크", "tech", "IT", "SW", "소프트웨어",
+    "AI", "인공지능", "GPT", "LLM", "생성형", "테크", "tech", "IT", "ICT", "SW", "소프트웨어",
     "개발", "컨퍼런스", "세미나", "웨비나", "웹비나", "밋업", "보안", "시큐리티",
     "클라우드", "데이터", "로봇", "자율주행", "AIoT", "해커톤", "DevOps", "전자전", "스마트",
     "summit", "conference", "webinar", "hackathon", "meetup", "security",

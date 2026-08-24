@@ -31,7 +31,7 @@ better token cost, speed, and accuracy. Web search only for gaps the sources bel
 | AWS events | `https://aws.amazon.com/ko/events/` | Hub has no dates — fetch the specific event page (e.g. `aws.amazon.com/events/reinvent/`) |
 | Google Cloud events | `https://cloud.google.com/events` | Filter state lives in URL (`?ser=...`); fall back to WebSearch if filters don't apply |
 | Anthropic events | `https://www.anthropic.com/events#events` | Small, check quickly |
-| OpenAI events | `https://academy.openai.com/public/events` | DevDay site 403s on WebFetch — use `openai.com/index/devday-<year>/` or WebSearch |
+| OpenAI events | `https://devday.openai.com/` | DevDay site (was 403-prone under openai.com/devday/). DevDay Exchanges (Seoul, Tokyo, etc.) announced here |
 | Groq | `https://groq.com/events/` | Dates published late |
 | Google Cloud Next | `https://www.googlecloudevents.com/next-vegas` | Every April, Las Vegas |
 | World Summit AI | `https://worldsummit.ai/` | Every October, Amsterdam |
@@ -57,7 +57,9 @@ better token cost, speed, and accuracy. Web search only for gaps the sources bel
 | AWS Summit Seoul | May (2026: 5/20-21) | COEX |
 | Public AI Expo | June | KINTEX |
 | AI Summit Seoul & Expo | 3rd week of August (2026: 8/19-21) | COEX |
-| OpenAI DevDay | Late September (2026: 9/29, application deadline 9/17) | San Francisco |
+| OpenAI DevDay | Late September (2026: 9/29, Fort Mason; apps closed; free keynote livestream; DevDay Exchange Seoul TBD) | San Francisco |
+| AI Festa | Early October (2026: 10/6-8) — MSICT AI Week official, free | COEX Hall C |
+| KES (한국전자전) | Mid October (2026: 10/13-16) | COEX Hall A/B, kes.org |
 | World Summit AI | Early October (2026: 10/7-8, World AI Week 10/5-9) | Amsterdam |
 | Industrial AI EXPO | October (2026: 10/21-23) | KINTEX |
 | AIoT Korea | Early November (2026: 11/3-6) | COEX |
@@ -110,6 +112,8 @@ better token cost, speed, and accuracy. Web search only for gaps the sources bel
   ended 8/19-21) as upcoming. re:Invent: 2025=12/1-5, 2026=11/30-12/4.
 - **Venue calendar date errors**: COEX listed the ended AI Summit at 9/19-21 instead of 8/19-21;
   KINTEX JS rendering shifts date-event mapping. Always cross-check against the organizer's site.
+- **Deadline drift**: registration/CFP deadlines close while pages stay live (DevDay 2026 apps
+  closed before the 9/17 published deadline). Re-verify deadline status, not just the date.
 - **Late-August COEX weeks**: autonomous driving/EV and pharma-bio dominate — pure AI events may not
   exist. "No AI events in this period" is a valid result.
 - **Token budget**: batch venue + platform fetches in one parallel round; WebFetch caches 15 min, so

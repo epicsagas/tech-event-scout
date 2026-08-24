@@ -126,8 +126,18 @@ def build_urls(src, start, end):
         return [src["url"].format(page=p, start=fmt(start), end=fmt(end)) for p in range(1, 6)]
     return [src["url"].format(start=fmt(start), end=fmt(end))]
 
+DATE_RE = re.compile(r"(20\d{2})-(\d{2})-(\d{2})|(20\d{2})\.(\d{2})\.(\d{2})|(20\d{2})[./](\d{1,2})[./](\d{1,2})")
+
+def event_date(e):
+    """First YYYY-MM-DD found in dates field or title; None if absent."""
+    m = DATE_RE.search(e.get("dates", "") + " " + e["title"])
+    if not m:
+        return None
+    g = [x for x in m.groups() if x]
+    return "".join(g[:3]) if len(g) >= 3 else None
+
 def collect(src, start, end):
-    """One adapter pass: fetch pages -> parse -> keyword filter -> normalize."""
+    """One adapter pass: fetch pages -> parse -> keyword filter -> date filter -> normalize."""
     events, seen = [], set()
     for url in build_urls(src, start, end):
         try:
@@ -138,7 +148,10 @@ def collect(src, start, end):
             break
         for e in parsed:
             t = clean(re.sub(r"\s+", " ", e["title"]))[:120]
-            if t in seen or not KEY_RE.search(t):
+            if t in seen or not KEY_RE.search(t) or "종료된" in t:
+                continue
+            d = event_date(e)
+            if d and start and end and not (start <= d <= end):  # outside window
                 continue
             seen.add(t)
             e["title"], e["url"] = t, e["url"][:160]

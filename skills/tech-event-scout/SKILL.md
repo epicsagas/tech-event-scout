@@ -44,7 +44,7 @@ better token cost, speed, and accuracy. Web search only for gaps the sources bel
 |------|--------------|------|
 | onoffmix | `https://www.onoffmix.com/event/main?s=<keyword>` | `s=` keyword query |
 | Event-us | `https://event-us.kr/` | Dev community events |
-| Luma Seoul | `https://luma.com/seoul` | Meetup calendar |
+| Luma Seoul | `https://luma.com/seoul` | Meetup calendar; JS — API/render fallbacks above |
 | Dev-Event | `https://github.com/brave-people/Dev-Event` | Events + CFPs, continuously updated |
 | dev-conf-replay | `https://github.com/hibuz/dev-conf-replay` | Past-edition archive — annual-cycle inference |
 | SLEXN events | `https://www.slexn.com/events/` | Conferences + webinars (AI/ML, DevOps, testing). Secondary — cross-check before adopting |
@@ -73,7 +73,13 @@ better token cost, speed, and accuracy. Web search only for gaps the sources bel
    compact JSON. Read that JSON instead of WebFetching these pages.
 3. **WebFetch only what the script can't do**: JS-rendered venue lists (COEX/KINTEX/BEXCO — build the
    date-query URLs from the source table, walk pagination), platform event pages (AWS/GCP/Anthropic/
-   OpenAI), and Luma. Batch these in one parallel round.
+   OpenAI), and Luma (`luma.com/seoul`). Batch these in one parallel round.
+
+   JS-rendering fallback ladder, cheapest first — plain WebFetch often fails on these:
+   a. **JSON API**: many sites serve the list from an open endpoint (`/api/...`, `.json`) — probe with
+      curl before rendering anything; parse in the collector script or read directly.
+   b. **Obscura headless**: `obscura-fetch` skill renders JS and returns text/links.
+   c. **Selenium/Playwright**: last resort for sites blocking headless fetches.
 4. **Keyword filter** (already applied by the script; apply manually to WebFetch results) — keep titles
    matching: AI, 인공지능, GPT, LLM, 생성형, 테크, IT, SW/소프트웨어, 개발, 컨퍼런스, 세미나,
    웨비나/웹비나, 밋업, 보안, 클라우드, 데이터, 로봇, 자율주행, AIoT, 해커톤, CFP. Online webinars

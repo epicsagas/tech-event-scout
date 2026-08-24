@@ -70,12 +70,12 @@ better token cost, speed, and accuracy. Web search only for gaps the sources bel
 
 1. **Scope**: if topic, period, or region is unspecified, ask. Defaults: 3 months from today, domestic + major global.
 2. **Run the collector first** (deterministic, near-zero tokens):
-   `python3 skills/tech-event-scout/scripts/collect.py [--start YYYYMMDD --end YYYYMMDD] [name=url ...]`
-   Fetches server-rendered sources (SLEXN, Dev-Event, onoffmix by default), keyword-filters, emits
-   compact JSON. Read that JSON instead of WebFetching these pages.
-3. **WebFetch only what the script can't do**: JS-rendered venue lists (COEX/KINTEX/BEXCO — build the
-   date-query URLs from the source table, walk pagination), platform event pages (AWS/GCP/Anthropic/
-   OpenAI), and Luma (`luma.com/seoul`). Batch these in one parallel round.
+   `python3 skills/tech-event-scout/scripts/collect.py --start YYYYMMDD --end YYYYMMDD`
+   Declarative source registry -> one adapter pipeline (fetch/parse/filter/dedupe) covering SLEXN,
+   Dev-Event, onoffmix, AWS summits, COEX (paginated, date query), KINTEX (date query), BEXCO.
+   Prints a compact summary — read it instead of WebFetching these pages. `--all-json` for raw JSON.
+3. **WebFetch only the js-only stubs** the script prints (Luma, Event-us, Anthropic, GCP,
+   OpenAI DevDay, Groq). Batch in one parallel round.
 
    JS-rendering fallback ladder, cheapest first — plain WebFetch often fails on these:
    a. **JSON API**: many sites serve the list from an open endpoint (`/api/...`, `.json`) — probe with

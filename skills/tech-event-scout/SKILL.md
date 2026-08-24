@@ -18,8 +18,9 @@ better token cost, speed, and accuracy. Use web search only for events not cover
 
 | Source | List page | Notes |
 |------|--------------|------|
-| COEX calendar | `https://www.coex.co.kr/event/exhibitions-calendar/` | Monthly calendar. First stop for most Korean AI events |
-| KINTEX calendar | `https://www.kintex.com/web/ko/event/clist.do` | JS-rendered; dates may shift when fetched — cross-check date and event name |
+| COEX full schedules | `https://www.coex.co.kr/event/full-schedules/?var_page=1&search_start_date=2026.08.24&search_end_date=2026.09.24&list_type=LIST` | LIST type with date query + `var_page` pagination. First stop for most Korean AI events |
+| KINTEX list | `https://www.kintex.com/web/ko/event/list.do?searchType=&searchStartMon=202608&searchEndMon=202608&searchStartDt=&searchEndDt=` | Month-range query (`searchStartMon`/`searchEndMon`). JS-rendered; dates may shift — cross-check |
+| BEXCO list | `https://www.bexco.co.kr/kor/CMS/EventScheduleMgr/list.do?robot=Y&mCode=MN214&page=2` | `page` pagination. Busan venue |
 | AI Summit Seoul | `https://www.aisummit.co.kr/` | Korea's largest AI conference. 3rd week of August, COEX (2026: 8/19-21) |
 | AWS events | `https://aws.amazon.com/ko/events/` | No specific dates listed — fetch `aws.amazon.com/events/reinvent/` directly |
 | Google Cloud Next | `https://www.googlecloudevents.com/next-vegas` | Every April, Las Vegas |
@@ -29,6 +30,15 @@ better token cost, speed, and accuracy. Use web search only for events not cover
 | World Summit AI | `https://worldsummit.ai/` | World's largest global AI conference. Every October, Amsterdam |
 | Industrial AI EXPO | `https://industrialaiexpo.or.kr/` | Korea's flagship industrial-AI expo. Every October, KINTEX |
 | SLEXN H2 roundup | `https://www.slexn.com/major-domestic-and-international-ai-conferences-in-the-second-half-of-2026/` | Annual domestic+global list, secondary source. Re-search with the year swapped. Adopt only after cross-checking the official site |
+| AWS events | `https://aws.amazon.com/ko/events/` | No dates on the hub — fetch the specific event page (e.g. re:Invent) |
+| Google Cloud events | `https://cloud.google.com/events` | Filter UI state is in the URL (`?ser=...`); use WebSearch if filters don't apply |
+| Anthropic events | `https://www.anthropic.com/events#events` | Check frequently |
+| OpenAI events | `https://academy.openai.com/public/events` | DevDay page gets 403 on WebFetch |
+| Event-us | `https://event-us.kr/` | Korean dev community events |
+| onoffmix | `https://www.onoffmix.com/event/main?s=%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A0%20ai%20chatgpt%20%EC%B1%97gpt` | Korean event aggregator; `s=` keyword query |
+| Luma Seoul | `https://luma.com/seoul` | Community/tech meetups, Seoul calendar |
+| dev-conf-replay | `https://github.com/hibuz/dev-conf-replay` | Korean dev conference replay archive — past editions for annual-cycle inference |
+| Dev-Event | `https://github.com/brave-people/Dev-Event` | Korean dev events/CFP aggregator, updated continuously |
 
 ## Annual cycle reference (verified 2026 values)
 
@@ -48,12 +58,18 @@ better token cost, speed, and accuracy. Use web search only for events not cover
 ## Workflow
 
 1. **Scope**: if topic, period, or region is unspecified, ask. Defaults: 3 months from today, domestic + major global.
-2. **Primary collection**: WebFetch the source table pages covering the period. COEX/KINTEX calendars
-   are the starting point for domestic events.
-3. **Supplementary search**: only for events missing from the sources (Gemini-related, hackathons, CFPs).
-4. **Verification**: confirm date, venue, registration on each event's official page. Never finalize on
+2. **Primary collection**: WebFetch the venue list pages with the target date range as query params
+   (COEX `search_start_date`/`search_end_date`, KINTEX `searchStartMon`/`searchEndMon`), walking each
+   `var_page`/`page`/pagination until the range is covered. Then keyword-filter the list (AI, 인공지능,
+   테크, IT, 소프트웨어, 보안, 개발, 클라우드, 데이터, 로봇 …) — drop everything else.
+3. **Detail-link extraction** — link the event's own official page, never the venue list/calendar page:
+   - COEX: open the event's venue detail page, take the "홈페이지 바로가기" link
+   - KINTEX: open the detail page, take the homepage URL shown in the body (plain URL text)
+   - BEXCO: take the "참가 안내" link
+4. **Supplementary search**: only for events missing from the sources (Gemini-related, hackathons, CFPs).
+5. **Verification**: confirm date, venue, registration on each event's official page. Never finalize on
    secondhand blog citations alone.
-5. **Dedupe & output**: use the format below. Exclude ended events; list imminent CFP deadlines in a
+6. **Dedupe & output**: use the format below. Exclude ended events; list imminent CFP deadlines in a
    separate section.
 
 ## Output format

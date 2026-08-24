@@ -20,6 +20,7 @@ KEYWORDS = [
     "AI", "인공지능", "GPT", "LLM", "생성형", "테크", "tech", "IT", "SW", "소프트웨어",
     "개발", "컨퍼런스", "세미나", "웨비나", "웹비나", "밋업", "보안", "시큐리티",
     "클라우드", "데이터", "로봇", "자율주행", "AIoT", "해커톤", "DevOps",
+    "summit", "conference", "webinar", "hackathon", "meetup", "security",
 ]
 # ponytail: false-positive guard — bare "it"/"data" never match, only Korean/exact tokens
 KEY_RE = re.compile("|".join(re.escape(k) for k in KEYWORDS), re.IGNORECASE)
@@ -29,6 +30,7 @@ DEFAULT_SOURCES = [
     ("slexn", "https://www.slexn.com/events/"),
     ("dev-event", "https://raw.githubusercontent.com/brave-people/Dev-Event/master/README.md"),
     ("onoffmix-ai", "https://www.onoffmix.com/event/main?s=%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5"),
+    ("aws-summits", "https://aws.amazon.com/events/summits/"),
 ]
 
 def fetch(url: str) -> str:
@@ -53,6 +55,20 @@ def extract(html: str, base: str):
         if len(title) >= 6 and KEY_RE.search(title):
             yield {"title": title[:120], "url": ""}
 
+def extract_aws_summits(html: str, base: str):
+    """AWS summits hub embeds event cards as JSON: itemCTALink → itemMetaDate → itemTitle."""
+    pat = re.compile(
+        r'"itemCTALink":"([^"]*summits/[a-z-]+/)"(?:,"itemMetaDate":"([^"]*)")?.{0,300}?"itemTitle":"([^"]+)"'
+    )
+    seen = set()
+    for link, date, title in pat.findall(html):
+        if link in seen:
+            continue
+        seen.add(link)
+        yield {"title": title[:120], "url": f"https://aws.amazon.com{link}", "dates": date}
+
+ADAPTERS = {"aws-summits": extract_aws_summits}
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--start"); ap.add_argument("--end")
@@ -65,7 +81,7 @@ def main():
     out = []
     for name, url in sources:
         try:
-            events = list(extract(fetch(url), url))
+            events = list(ADAPTERS.get(name, extract)(fetch(url), url))
             seen, uniq = set(), []
             for e in events:  # dedupe by title
                 k = e["title"]

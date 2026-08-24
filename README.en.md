@@ -1,29 +1,56 @@
 # tech-event-scout (English)
 
-A multi-host agent plugin that tracks AI and tech events for you. It checks the
-official sources directly — the COEX and KINTEX event calendars plus AWS, Google
-Cloud, OpenAI, Anthropic, and Groq event pages — and puts conferences, expos,
-and summits into one tidy summary.
+A multi-host agent plugin for AI/tech event intelligence. **A codebase aggregator
+deterministically collects and filters 9 sources; the LLM reads only a compact summary
+(~3k tokens) and synthesizes the report** — minimal search dependence, minimal token cost.
 
 [한국어 README](README.md) · [Collection sources](docs/sources.md)
 
-## What it covers
+## Architecture
 
-- **Cloud**: AWS Summit Seoul, re:Invent, Google Cloud Next
-- **AI platforms**: Anthropic (Claude), OpenAI DevDay, Google (Gemini), Groq
-- **Korea events**: AI Summit Seoul & Expo, Public AI Expo, Industrial AI EXPO
-- **More**: hackathons, CFPs (call for papers), AI summits
+```mermaid
+flowchart LR
+    A[SOURCES declarative registry<br/>per-site domain defs] --> B[Adapter pipeline<br/>fetch → parse → filter → dedupe]
+    B --> C[Compact summary ~3k tokens]
+    C --> D[LLM synthesis & report]
+    B --> E[3 JS-only stubs<br/>→ WebFetch only]
+    E --> D
+```
 
-Instead of relying on search results alone, the skill fetches official list
-pages first — faster, cheaper, and far less likely to surface stale or expired
-events. The full source list and query patterns live in
-[docs/sources.md](docs/sources.md).
+- **collect.py** (pure Python stdlib, zero deps): declarative source table → one adapter
+  pipeline. Adding a source is one dict entry.
+- Date-window, keyword, and dedupe filters run in code — ~90% fewer input tokens than
+  pure-LLM fetching (investigation tool cost ≈ $0.07 per run).
+
+## Code-collected sources (9)
+
+| Type | Sources |
+|------|---------|
+| Venue calendars | COEX (date query + pagination), KINTEX (`searchStartDt`), BEXCO (`schStartDate` + pages) |
+| Platforms | AWS Summits (embedded JSON) |
+| Aggregators | SLEXN, Dev-Event (GitHub), onoffmix (2 keyword queries), Luma Seoul (`__NEXT_DATA__`) |
+
+Three JS-only sources (Event-us, Anthropic, OpenAI DevDay) are emitted as stubs for the
+agent to WebFetch.
+
+## Coverage
+
+- **Cloud**: AWS Summits (worldwide), re:Invent, Google Cloud Next
+- **AI platforms**: OpenAI DevDay (+ DevDay Exchange Seoul), Anthropic, GCP webinars
+- **Korea flagship**: AI Summit Seoul, AI Festa, KES, Industrial AI EXPO, AIoT Korea, Softwave
+- **Community**: AWSKRUG, Docker/n8n meetups, hackathons, CFPs, webinars (virtual counts)
 
 ## Example prompts
 
-- "What AI events are happening at COEX in September?"
-- "Summarize the next AWS and OpenAI event dates."
+- "Research AI/tech events at COEX and KINTEX for Sep–Oct."
+- "Summarize upcoming AWS and OpenAI dates plus registration deadlines."
 - "Any conference CFPs closing in the next 3 months?"
+
+## Run directly
+
+```bash
+python3 skills/tech-event-scout/scripts/collect.py --start 20260901 --end 20261031
+```
 
 ## Install
 

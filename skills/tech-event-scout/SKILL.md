@@ -61,6 +61,7 @@ better token cost, speed, and accuracy. Use web search only for events not cover
 | Event | Organizer | Dates | Venue | Registration | CFP | Link | Source |
 
 - Dates: `2026-09-17 ~ 09-18`. If unconfirmed: `(TBD)`.
+- Link: the event's own detail/official page, never the calendar or list page it was found on.
 - Mark unofficial sources. State the as-of date in the answer (e.g. "as of 2026-08-24").
 
 ## Pitfalls

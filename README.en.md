@@ -38,7 +38,7 @@ flowchart LR
 
 | Type | Sources |
 |------|---------|
-| Venue calendars | COEX (date query + pagination), KINTEX (`searchStartDt`), BEXCO (`schStartDate` + pages) |
+| Exhibition schedules | COEX (date query + pagination), KINTEX (`searchStartDt`), BEXCO (`schStartDate` + pages) |
 | Platforms | AWS Summits (embedded JSON) |
 | Aggregators | SLEXN, Dev-Event (GitHub), onoffmix (2 keyword queries), Luma Seoul (`__NEXT_DATA__`) |
 

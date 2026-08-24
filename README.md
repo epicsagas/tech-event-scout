@@ -38,7 +38,7 @@ flowchart LR
 
 | 분류 | 소스 |
 |------|------|
-| 공연장 달력 | 코엑스(날짜 쿼리+페이지네이션), 킨텍스(`searchStartDt`), 벡스코(`schStartDate`+페이지) |
+| 전시일정 | 코엑스(날짜 쿼리+페이지네이션), 킨텍스(`searchStartDt`), 벡스코(`schStartDate`+페이지) |
 | 플랫폼 | AWS Summits (임베디드 JSON) |
 | 애그리게이터 | SLEXN, Dev-Event(GitHub), onoffmix(키워드 2건), Luma Seoul(`__NEXT_DATA__`) |
 

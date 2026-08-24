@@ -40,4 +40,4 @@ detail body · BEXCO → "참가 안내" link.
 | Luma (Seoul) | https://luma.com/seoul |
 | Dev-Event (brave-people) | https://github.com/brave-people/Dev-Event |
 | dev-conf-replay (hibuz) | https://github.com/hibuz/dev-conf-replay |
-| SLEXN H2 roundup | https://www.slexn.com/ (secondary — cross-check before adopting) |
+| SLEXN events | https://www.slexn.com/events/ (conferences + webinars; secondary — cross-check before adopting) |

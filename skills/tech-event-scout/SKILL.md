@@ -47,7 +47,7 @@ better token cost, speed, and accuracy. Web search only for gaps the sources bel
 | Luma Seoul | `https://luma.com/seoul` | Meetup calendar |
 | Dev-Event | `https://github.com/brave-people/Dev-Event` | Events + CFPs, continuously updated |
 | dev-conf-replay | `https://github.com/hibuz/dev-conf-replay` | Past-edition archive — annual-cycle inference |
-| SLEXN H2 roundup | `https://www.slexn.com/...second-half-of-2026/` | Secondary source; swap year. Adopt only after official-site cross-check |
+| SLEXN events | `https://www.slexn.com/events/` | Conferences + webinars (AI/ML, DevOps, testing). Secondary — cross-check before adopting |
 
 ## Annual cycle reference (verified 2026 values)
 
@@ -70,7 +70,8 @@ better token cost, speed, and accuracy. Web search only for gaps the sources bel
 2. **Primary collection** (parallel WebFetch batch): venue lists with the target range as query params,
    walking pagination until covered; platform/aggregator pages in the same batch.
 3. **Keyword filter** — keep titles matching: AI, 인공지능, GPT, LLM, 생성형, 테크, IT, SW/소프트웨어,
-   개발, 컨퍼런스, 보안, 클라우드, 데이터, 로봇, 자율주행, AIoT, 해커톤, CFP. Drop the rest
+   개발, 컨퍼런스, 세미나, 웨비나/웹비나, 밋업, 보안, 클라우드, 데이터, 로봇, 자율주행, AIoT,
+   해커톤, CFP. Online webinars count — don't filter them out for being virtual. Drop the rest
    (art fairs, bio/pharma, education expos unless AI-tagged).
 4. **Detail-link extraction** — link the event's own official page, never the list/calendar page:
    - COEX: venue detail page → "홈페이지 바로가기" link

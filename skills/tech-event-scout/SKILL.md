@@ -66,6 +66,8 @@ better token cost, speed, and accuracy. Use web search only for events not cover
    - COEX: open the event's venue detail page, take the "홈페이지 바로가기" link
    - KINTEX: open the detail page, take the homepage URL shown in the body (plain URL text)
    - BEXCO: take the "참가 안내" link
+   - Aggregators (onoffmix, Event-us, Luma, GitHub lists): open the event detail page and take its
+     official/homepage link if present; otherwise link the detail page itself
 4. **Supplementary search**: only for events missing from the sources (Gemini-related, hackathons, CFPs).
 5. **Verification**: confirm date, venue, registration on each event's official page. Never finalize on
    secondhand blog citations alone.

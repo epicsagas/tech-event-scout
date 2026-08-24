@@ -21,9 +21,11 @@ UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) tech-event-
 # the stub is emitted for the agent to WebFetch/render instead.
 SOURCES = [
     # aggregators & platforms, no date params
-    {"name": "slexn",      "kind": "anchors",    "url": "https://www.slexn.com/events/"},
+    {"name": "slexn",      "kind": "anchors",    "url": "https://www.slexn.com/events/", "path": "/event/"},
     {"name": "dev-event",  "kind": "md-links",   "url": "https://raw.githubusercontent.com/brave-people/Dev-Event/master/README.md"},
-    {"name": "onoffmix",   "kind": "anchors",    "url": "https://www.onoffmix.com/event/main?s=%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5"},
+    {"name": "onoffmix",   "kind": "anchors",    "url": "https://www.onoffmix.com/event/main?s=%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5", "path": "/event/"},
+    {"name": "onoffmix-dev","kind": "anchors",   "url": "https://www.onoffmix.com/event/main?s=%EA%B0%9C%EB%B0%9C%EC%9E%90", "path": "/event/"},
+    {"name": "luma-seoul", "kind": "luma-json",  "url": "https://luma.com/seoul"},
     {"name": "aws-summits","kind": "aws-json",   "url": "https://aws.amazon.com/events/summits/"},
     # venues, date-parameterized
     {"name": "coex",   "kind": "coex-card",  "dates": "dot",    "paginate": True,
@@ -32,12 +34,10 @@ SOURCES = [
      "url": "https://www.kintex.com/web/ko/event/list.do?searchType=&searchStartMon={start}&searchEndMon={end}&searchStartDt=&searchEndDt=&pageIndex={page}"},
     {"name": "bexco",  "kind": "bexco-card", "url": "https://www.bexco.co.kr/kor/CMS/EventScheduleMgr/list.do?robot=Y&mCode=MN214&page=1"},
     # JS-only: codebase can't fetch; emit stub for LLM follow-up
-    {"name": "luma-seoul", "js": True, "url": "https://luma.com/seoul"},
     {"name": "event-us",   "js": True, "url": "https://event-us.kr/"},
     {"name": "anthropic",  "js": True, "url": "https://www.anthropic.com/events"},
     {"name": "gcp",        "js": True, "url": "https://cloud.google.com/events"},
     {"name": "openai-devday", "js": True, "url": "https://devday.openai.com/"},
-    {"name": "groq",       "js": True, "url": "https://groq.com/events/"},
 ]
 
 KEYWORDS = [
@@ -112,8 +112,20 @@ def parse_bexco(html, base):
         yield {"title": title, "url": "https://www.bexco.co.kr" + href,
                "dates": dm.group(1) if dm else ""}
 
+def parse_luma(html, base):
+    """Luma city page: __NEXT_DATA__ embeds events[].event {name, start_at, url}."""
+    m = re.search(r'id="__NEXT_DATA__" type="application/json">(.*?)</script>', html, re.S)
+    if not m:
+        return
+    d = json.loads(m.group(1))
+    for ev in d["props"]["pageProps"]["initialData"]["data"]["events"]:
+        e = ev["event"]
+        yield {"title": e.get("name", ""), "url": f"https://luma.com/{e.get('url', e.get('api_id', ''))}",
+               "dates": e.get("start_at", "")[:10]}
+
 PARSERS = {"anchors": parse_anchors, "md-links": parse_md_links, "aws-json": parse_aws_json,
-           "coex-card": parse_coex, "kintex-card": parse_kintex, "bexco-card": parse_bexco}
+           "coex-card": parse_coex, "kintex-card": parse_kintex, "bexco-card": parse_bexco,
+           "luma-json": parse_luma}
 
 # ------------------------------------------------------------------ aggregator
 def build_urls(src, start, end):
@@ -150,6 +162,8 @@ def collect(src, start, end):
             t = clean(re.sub(r"\s+", " ", e["title"]))[:120]
             if t in seen or not KEY_RE.search(t) or "종료된" in t:
                 continue
+            if src.get("path") and src["path"] not in e["url"]:
+                continue  # keep only event-detail paths (drops category nav links)
             d = event_date(e)
             if d and start and end and not (start <= d <= end):  # outside window
                 continue

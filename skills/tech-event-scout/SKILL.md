@@ -72,8 +72,9 @@ better token cost, speed, and accuracy. Web search only for gaps the sources bel
 2. **Run the collector first** (deterministic, near-zero tokens):
    `python3 skills/tech-event-scout/scripts/collect.py --start YYYYMMDD --end YYYYMMDD`
    Declarative source registry -> one adapter pipeline (fetch/parse/filter/dedupe) covering SLEXN,
-   Dev-Event, onoffmix, AWS summits, COEX (paginated, date query), KINTEX (date query), BEXCO.
-   Prints a compact summary — read it instead of WebFetching these pages. `--all-json` for raw JSON.
+   Dev-Event, onoffmix (2 keyword queries), Luma Seoul (embedded NEXT_DATA JSON), AWS summits,
+   COEX (paginated, date query), KINTEX (date query), BEXCO. Prints a compact summary — read it
+   instead of WebFetching these pages. `--all-json` for raw JSON.
 3. **WebFetch only the js-only stubs** the script prints (Luma, Event-us, Anthropic, GCP,
    OpenAI DevDay, Groq). Batch in one parallel round.
 

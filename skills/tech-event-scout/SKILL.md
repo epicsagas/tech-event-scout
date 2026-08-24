@@ -67,21 +67,27 @@ better token cost, speed, and accuracy. Web search only for gaps the sources bel
 ## Workflow
 
 1. **Scope**: if topic, period, or region is unspecified, ask. Defaults: 3 months from today, domestic + major global.
-2. **Primary collection** (parallel WebFetch batch): venue lists with the target range as query params,
-   walking pagination until covered; platform/aggregator pages in the same batch.
-3. **Keyword filter** — keep titles matching: AI, 인공지능, GPT, LLM, 생성형, 테크, IT, SW/소프트웨어,
-   개발, 컨퍼런스, 세미나, 웨비나/웹비나, 밋업, 보안, 클라우드, 데이터, 로봇, 자율주행, AIoT,
-   해커톤, CFP. Online webinars count — don't filter them out for being virtual. Drop the rest
-   (art fairs, bio/pharma, education expos unless AI-tagged).
-4. **Detail-link extraction** — link the event's own official page, never the list/calendar page:
+2. **Run the collector first** (deterministic, near-zero tokens):
+   `python3 skills/tech-event-scout/scripts/collect.py [--start YYYYMMDD --end YYYYMMDD] [name=url ...]`
+   Fetches server-rendered sources (SLEXN, Dev-Event, onoffmix by default), keyword-filters, emits
+   compact JSON. Read that JSON instead of WebFetching these pages.
+3. **WebFetch only what the script can't do**: JS-rendered venue lists (COEX/KINTEX/BEXCO — build the
+   date-query URLs from the source table, walk pagination), platform event pages (AWS/GCP/Anthropic/
+   OpenAI), and Luma. Batch these in one parallel round.
+4. **Keyword filter** (already applied by the script; apply manually to WebFetch results) — keep titles
+   matching: AI, 인공지능, GPT, LLM, 생성형, 테크, IT, SW/소프트웨어, 개발, 컨퍼런스, 세미나,
+   웨비나/웹비나, 밋업, 보안, 클라우드, 데이터, 로봇, 자율주행, AIoT, 해커톤, CFP. Online webinars
+   count — don't drop them for being virtual. Drop the rest (art fairs, bio/pharma, education expos
+   unless AI-tagged).
+5. **Detail-link extraction** — link the event's own official page, never the list/calendar page:
    - COEX: venue detail page → "홈페이지 바로가기" link
    - KINTEX: detail page → homepage URL in body (plain URL text)
    - BEXCO: "참가 안내" link
    - Aggregators: detail page → official/homepage link if present, else the detail page itself
-5. **Supplementary search**: only for gaps (Gemini-specific, hackathons, CFPs not in aggregators).
-6. **Verification**: confirm date, venue, registration on the official page. Never finalize on
+6. **Supplementary search**: only for gaps (Gemini-specific, hackathons, CFPs not in aggregators).
+7. **Verification**: confirm date, venue, registration on the official page. Never finalize on
    secondhand blog citations alone.
-7. **Dedupe & output**: format below. Exclude ended events; imminent CFP/registration deadlines in a
+8. **Dedupe & output**: format below. Exclude ended events; imminent CFP/registration deadlines in a
    separate section.
 
 ## Output format

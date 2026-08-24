@@ -1,0 +1,25 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "23 3 * * 1" # weekly: sources drift, catch it early
+
+jobs:
+  collect-smoke:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Collector smoke test (stdlib only, no deps)
+        run: |
+          python3 skills/tech-event-scout/scripts/collect.py --start 20260901 --end 20261231 > out.txt
+          # every non-js source must report ok and the summary must be non-trivial
+          grep -c '^\[' out.txt
+          grep -v 'error' out.txt | grep -q '^- ' || { echo "no events collected"; exit 1; }

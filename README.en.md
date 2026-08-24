@@ -1,10 +1,22 @@
 # tech-event-scout (English)
 
+[한국어](README.md) | **[English](README.en.md)**
+
+<p align="center">
+  <a href="https://github.com/epicsagas/tech-event-scout/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/epicsagas/tech-event-scout?style=for-the-badge&labelColor=0d1117&color=ffd700&logo=github&logoColor=white" /></a>
+  <a href="https://github.com/epicsagas/tech-event-scout/network/members"><img alt="Forks" src="https://img.shields.io/github/forks/epicsagas/tech-event-scout?style=for-the-badge&labelColor=0d1117&color=2ecc71&logo=github&logoColor=white" /></a>
+  <a href="https://github.com/epicsagas/tech-event-scout/issues"><img alt="Issues" src="https://img.shields.io/github/issues/epicsagas/tech-event-scout?style=for-the-badge&labelColor=0d1117&color=ff6b6b&logo=github&logoColor=white" /></a>
+  <a href="https://github.com/epicsagas/tech-event-scout/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/epicsagas/tech-event-scout?style=for-the-badge&labelColor=0d1117&color=58a6ff&logo=git&logoColor=white" /></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-3fb950?style=for-the-badge&labelColor=0d1117" /></a>
+</p>
+
 A multi-host agent plugin for AI/tech event intelligence. **A codebase aggregator
 deterministically collects and filters 9 sources; the LLM reads only a compact summary
 (~3k tokens) and synthesizes the report** — minimal search dependence, minimal token cost.
 
-[한국어 README](README.md) · [Collection sources](docs/sources.md)
+<p align="center">
+  <img src="docs/demo.svg" alt="collector output demo" width="800">
+</p>
 
 ## Architecture
 
@@ -30,8 +42,20 @@ flowchart LR
 | Platforms | AWS Summits (embedded JSON) |
 | Aggregators | SLEXN, Dev-Event (GitHub), onoffmix (2 keyword queries), Luma Seoul (`__NEXT_DATA__`) |
 
+Per-source query patterns and detail-link extraction rules: [docs/sources.md](docs/sources.md).
+
 Three JS-only sources (Event-us, Anthropic, OpenAI DevDay) are emitted as stubs for the
 agent to WebFetch.
+
+## Why tech-event-scout?
+
+| | tech-event-scout | Pure LLM search | Manual calendar checks |
+|-|------------------|-----------------|------------------------|
+| Input tokens per run | **~3k** | 50–100k+ | — |
+| Ended-event false hits | Reads venue calendars directly — low | Search mixes past editions | Low |
+| Per-source date queries | Handled in code | Re-assembled every run | Manual |
+| Maintenance | One dict entry per source | Prompt-dependent | Tens of minutes weekly |
+| Determinism | Same input → same output | Non-deterministic | — |
 
 ## Coverage
 
@@ -42,9 +66,29 @@ agent to WebFetch.
 
 ## Example prompts
 
+**Flagship research**
 - "Research AI/tech events at COEX and KINTEX for Sep–Oct."
+- "All developer conferences in Seoul this quarter."
+- "Any tech events at BEXCO (Busan)?"
+
+**Global platforms**
 - "Summarize upcoming AWS and OpenAI dates plus registration deadlines."
+- "World Summit AI — when and where this year? Tickets still available?"
+- "Is the re:Invent early-bird deadline close?"
+
+**Deadlines**
 - "Any conference CFPs closing in the next 3 months?"
+- "Only events whose registration closes this month."
+- "Where do I apply for DevDay Exchange Seoul?"
+
+**Community & meetups**
+- "AI meetups or hackathons in Seoul this week?"
+- "When is the next AWSKRUG session?"
+- "Online webinars presented in Korean only."
+
+**Research & verification**
+- "The COEX calendar shows AI Festa in October — verify against the official site." (cross-checks venue calendar errors)
+- "Infer next editions of events I missed last month from their annual cycle."
 
 ## Run directly
 

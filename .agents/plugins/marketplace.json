@@ -1,0 +1,21 @@
+{
+  "name": "tech-event-scout",
+  "interface": {
+    "displayName": "tech-event-scout plugin"
+  },
+  "plugins": [
+    {
+      "name": "tech-event-scout",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "pluginManifest": "./.codex-plugin/plugin.json",
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

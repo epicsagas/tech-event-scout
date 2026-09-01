@@ -99,12 +99,12 @@ python3 skills/tech-event-scout/scripts/collect.py --start 20260901 --end 202610
 
 ```bash
 # Claude Code
-claude plugin marketplace add epicsagas/plugins
-claude plugin install tech-event-scout@epicsagas
+claude plugin marketplace add epicsagas/tech-event-scout
+claude plugin install tech-event-scout@tech-event-scout
 
 # Codex
-codex plugin marketplace add epicsagas/plugins
-codex plugin add tech-event-scout@epicsagas
+codex plugin marketplace add epicsagas/tech-event-scout
+codex plugin add tech-event-scout@tech-event-scout
 
 # agy (repo URL, no .git)
 agy plugin install https://github.com/epicsagas/tech-event-scout

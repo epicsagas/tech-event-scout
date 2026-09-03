@@ -8,7 +8,7 @@
       "name": "tech-event-scout",
       "source": {
         "source": "local",
-        "path": "./"
+        "path": "./plugins/tech-event-scout"
       },
       "pluginManifest": "./.codex-plugin/plugin.json",
       "policy": {

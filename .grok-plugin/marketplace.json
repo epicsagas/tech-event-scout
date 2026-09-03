@@ -1,0 +1,26 @@
+{
+  "name": "tech-event-scout",
+  "description": "Standalone marketplace for the tech-event-scout plugin. Install from this repository.",
+  "owner": {
+    "name": "epicsagas"
+  },
+  "plugins": [
+    {
+      "name": "tech-event-scout",
+      "description": "AI/테크 행사 정보 수집 에이전트 (AWS, GCP, Claude, OpenAI, Gemini, Groq, 서밋, 코엑스/키텍스)",
+      "category": "productivity",
+      "source": {
+        "type": "local",
+        "path": "."
+      },
+      "homepage": "https://github.com/epicsagas/tech-event-scout",
+      "keywords": [
+        "conference",
+        "events",
+        "ai",
+        "aws",
+        "cfp"
+      ]
+    }
+  ]
+}

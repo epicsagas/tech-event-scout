@@ -10,8 +10,9 @@
       "description": "AI/테크 행사 정보 수집 에이전트 (AWS, GCP, Claude, OpenAI, Gemini, Groq, 서밋, 코엑스/키텍스)",
       "category": "productivity",
       "source": {
-        "type": "local",
-        "path": "."
+        "source": "url",
+        "url": "https://github.com/epicsagas/tech-event-scout.git",
+        "sha": "2b3c0a834452d7ac1c82d27970376b9c038b6653"
       },
       "homepage": "https://github.com/epicsagas/tech-event-scout",
       "keywords": [

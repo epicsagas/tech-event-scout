@@ -111,6 +111,10 @@ codex plugin add tech-event-scout@tech-event-scout
 agy plugin install https://github.com/epicsagas/tech-event-scout
 agy plugin enable tech-event-scout
 
+# Grok Build (xAI)
+grok plugin marketplace add epicsagas/tech-event-scout
+grok plugin install epicsagas/tech-event-scout --trust
+
 # hermes (repo URL)
 hermes plugins install https://github.com/epicsagas/tech-event-scout
 hermes plugins enable tech-event-scout

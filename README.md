@@ -97,14 +97,6 @@ python3 skills/tech-event-scout/scripts/collect.py --start 20260901 --end 202610
 
 ## 설치
 
-### Grok Build (xAI)
-
-```bash
-grok plugin install epicsagas/tech-event-scout --trust
-```
-
-Grok reads skills from `skills/` at the plugin root. No extra configuration needed.
-
 ```bash
 # Claude Code
 claude plugin marketplace add epicsagas/tech-event-scout
@@ -117,6 +109,10 @@ codex plugin add tech-event-scout@tech-event-scout
 # agy (repo URL, no .git)
 agy plugin install https://github.com/epicsagas/tech-event-scout
 agy plugin enable tech-event-scout
+
+# Grok Build (xAI)
+grok plugin marketplace add epicsagas/tech-event-scout
+grok plugin install epicsagas/tech-event-scout --trust
 
 # hermes (repo URL)
 hermes plugins install https://github.com/epicsagas/tech-event-scout
